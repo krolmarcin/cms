@@ -22,11 +22,11 @@ public class CreateCinemaCommand implements Validatable {
     }
 
     @Override
-    public void validate(ValidationError errors) {
-        if (name == null || name.isEmpty())
-            errors.add("name", "can't be blanked");
-        if (city == null || city.isEmpty())
-            errors.add("city", "can't be blanked");
+    public void validate(ValidationErrors errors) {
+        if (name == null || isEmpty(name))
+            errors.add("name", "is required");
+        if (city == null || isEmpty(city))
+            errors.add("city", "is required");
     }
 
 }

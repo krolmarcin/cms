@@ -7,13 +7,13 @@ import java.util.Set;
 
 public interface Validatable {
 
-    void validate(ValidationError errors);
+    void validate(ValidationErrors errors);
 
-    default boolean isEmpty(String s) {
-        return s == null || s.isEmpty();
+    default boolean isEmpty(Object o) {
+        return (o == null || o.toString().trim().isEmpty());
     }
 
-    class ValidationError {
+    class ValidationErrors {
 
         private Map<String, Set<String>> errors = new HashMap<>();
 
@@ -28,8 +28,13 @@ public interface Validatable {
         }
 
         public Map<String, Set<String>> getErrors() {
-            return errors;
+            return new HashMap<>(errors);
         }
+
+    }
+
+    default boolean isEmpty(String s) {
+        return s == null || s.trim().length() == 0;
     }
 
 }
