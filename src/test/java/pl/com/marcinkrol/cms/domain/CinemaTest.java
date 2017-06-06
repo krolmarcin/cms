@@ -18,15 +18,4 @@ public class CinemaTest {
         assertEquals(cinema.getCity(), "Lublin");
     }
 
-    @Test
-    public void sholudNotCreateCinemaWhenAnyParamMissing(){
-        CreateCinemaCommand cmd = new CreateCinemaCommand();
-        cmd.setName("Olimp");
-
-        Cinema cinema = new Cinema(cmd);
-
-        assertEquals(cinema.getName(), "Olimp");
-        assertEquals(cinema.getCity(), null);
-    }
-
 }

@@ -8,13 +8,13 @@ import pl.com.marcinkrol.cms.domain.CinemaRepository;
 public class Configuration {
 
     @Bean
-    public StandardCinemaManager standardCinemaManager(CinemaRepository cinemaRepository) {
-        return new StandardCinemaManager(cinemaRepository);
+    public CinemaRepository cinemaRepository() {
+        return new JPACinemaRepository();
     }
 
     @Bean
-    public CinemaRepository cinemaRepository() {
-        return new JPACinemaRepository();
+    public StandardCinemaManager standardCinemaManager(CinemaRepository cinemaRepository) {
+        return new StandardCinemaManager(cinemaRepository);
     }
 
 }
