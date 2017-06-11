@@ -58,6 +58,19 @@ public class CmsApplicationTest {
                 andExpect(jsonPath("$.errors.city").value("is required"));
     }
 
+    @Test
+    public void shouldShowErrorWhenTryToPutCinemaWithTheSameNameAndCity() throws Exception {
+        saveCinema("Olimp", "Lublin");
+
+        Cinema cinema = new Cinema("Olimp", "Lublin");
+        mockMvc.perform(
+                put("/cinemas").
+                        contentType(MediaType.APPLICATION_JSON).
+                        content(objectMapper.writeValueAsString(cinema))
+        ).andExpect(status().isUnprocessableEntity()).
+                andExpect(jsonPath("$.error").value("Cinema has already been created"));
+    }
+
     private void saveCinema(String name, String city) throws Exception {
         Cinema cinema = new Cinema(name, city);
         mockMvc.perform(
