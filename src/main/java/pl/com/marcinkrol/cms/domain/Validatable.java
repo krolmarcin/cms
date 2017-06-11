@@ -1,9 +1,6 @@
 package pl.com.marcinkrol.cms.domain;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public interface Validatable {
 
@@ -11,6 +8,10 @@ public interface Validatable {
 
     default boolean isEmpty(Object o) {
         return (o == null || o.toString().trim().isEmpty());
+    }
+
+    default boolean isEmpty(Collection c) {
+        return (c == null || c.toString().trim().isEmpty() || c.size() == 0);
     }
 
     class ValidationErrors {

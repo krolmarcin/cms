@@ -1,26 +1,32 @@
 package pl.com.marcinkrol.cms.application.implementation;
 
 import org.springframework.transaction.annotation.Transactional;
-import pl.com.marcinkrol.cms.application.CinemaManager;
-import pl.com.marcinkrol.cms.domain.Cinema;
-import pl.com.marcinkrol.cms.domain.CinemaRepository;
-import pl.com.marcinkrol.cms.domain.CreateCinemaCommand;
-import pl.com.marcinkrol.cms.domain.InvalidActionException;
+import pl.com.marcinkrol.cms.application.AdminPanel;
+import pl.com.marcinkrol.cms.domain.*;
 
 @Transactional
-public class StandardCinemaManager implements CinemaManager {
+public class StandardAdminPanel implements AdminPanel {
 
     private CinemaRepository cinemaRepository;
+    private MovieRepository movieRepository;
 
-    public StandardCinemaManager(CinemaRepository cinemaRepository) {
+    public StandardAdminPanel(CinemaRepository cinemaRepository, MovieRepository movieRepository) {
         this.cinemaRepository = cinemaRepository;
+        this.movieRepository = movieRepository;
     }
 
     @Override
-    public void create(CreateCinemaCommand cmd) {
+    public void createCinema(CreateCinemaCommand cmd) {
         Cinema cinema = new Cinema(cmd);
         checkCinemaExists(cinema);
         cinemaRepository.put(cinema);
+    }
+
+    @Override
+    public void createMovie(CreateMovieCommand cmd) {
+        Movie movie = new Movie(cmd);
+        movieRepository.put(movie);
+
     }
 
     private void checkCinemaExists(Cinema cinema) {
