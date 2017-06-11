@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -69,6 +70,23 @@ public class CmsApplicationTest {
                         content(objectMapper.writeValueAsString(cinema))
         ).andExpect(status().isUnprocessableEntity()).
                 andExpect(jsonPath("$.error").value("Cinema has already been created"));
+    }
+
+    @Test
+    public void shouldReturnAllCinemas() throws Exception {
+        saveCinema("Olimp", "Lublin");
+        saveCinema("Plaza", "Lublin");
+        saveCinema("Felicity", "Lublin");
+
+        mockMvc.perform(get("/cinemas").
+                contentType(MediaType.APPLICATION_JSON)).
+                andExpect(status().isOk()).
+                andExpect(content().json("[" +
+                        "{\"id\": 1, \"name\": \"Olimp\", \"city\": \"Lublin\"},\n" +
+                        "{\"id\": 2, \"name\": \"Plaza\", \"city\": \"Lublin\"},\n" +
+                        "{\"id\": 3, \"name\": \"Felicity\", \"city\": \"Lublin\"}" +
+                        "]"))
+                ;
     }
 
     private void saveCinema(String name, String city) throws Exception {
