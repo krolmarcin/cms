@@ -53,6 +53,8 @@ public class CmsApplicationMovieTest {
         ).andExpect(status().isOk());
     }
 
+    //TODO validationTestsOfMovieCreation
+
     private void saveMovie(String title, String description, Set<String> actors, Set<String> genres, Integer minAge, Integer length) throws Exception {
         Movie movie = new Movie(title, description, actors, genres, minAge, length);
         mockMvc.perform(put("/movies").

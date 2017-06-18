@@ -11,7 +11,14 @@ public interface Validatable {
     }
 
     default boolean isEmpty(Collection c) {
-        return (c == null || c.toString().trim().isEmpty() || c.size() == 0);
+        return (c == null || c.toString().trim().isEmpty() || c.size() == 0) || ensureNotEmptyValue(c);
+    }
+
+    default boolean ensureNotEmptyValue(Collection c){
+        for (Object o : c){
+            return (isEmpty(o));
+        }
+        return false;
     }
 
     class ValidationErrors {

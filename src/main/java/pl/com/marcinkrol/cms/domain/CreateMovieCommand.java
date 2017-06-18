@@ -71,8 +71,12 @@ public class CreateMovieCommand implements Validatable {
             errors.add("genres", "is required");
         if (minAge == null || isEmpty(minAge))
             errors.add("minAge", "is required");
-        if (length == null || isEmpty(length))
+        if (minAge != null && minAge <= 0)
+            errors.add("minAge", "must be greater then 0");
+        if (length == null || isEmpty(length) || (length <= 0))
             errors.add("length", "is required");
+        if (length != null && length <= 0)
+            errors.add("length", "must be greater then 0");
     }
 
 }
