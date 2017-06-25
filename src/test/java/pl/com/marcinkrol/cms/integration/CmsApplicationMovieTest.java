@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -54,6 +55,22 @@ public class CmsApplicationMovieTest {
     }
 
     //TODO validationTestsOfMovieCreation
+
+    @Test
+    public void validationErrorMissingParamsWhenCreateMovie() throws Exception {
+        Movie movie = new Movie(null, null, null, null, null, null);
+
+        mockMvc.perform(put("/movies").
+                contentType(MediaType.APPLICATION_JSON).
+                content(objectMapper.writeValueAsString(movie))
+        ).andExpect(status().isUnprocessableEntity()).
+                andExpect(jsonPath("$.errors.title").value("is required")).
+                andExpect(jsonPath("$.errors.description").value("is required")).
+                andExpect(jsonPath("$.errors.actors").value("is required")).
+                andExpect(jsonPath("$.errors.genres").value("is required")).
+                andExpect(jsonPath("$.errors.minAge").value("is required")).
+                andExpect(jsonPath("$.errors.length").value("is required"));
+    }
 
     private void saveMovie(String title, String description, Set<String> actors, Set<String> genres, Integer minAge, Integer length) throws Exception {
         Movie movie = new Movie(title, description, actors, genres, minAge, length);
