@@ -54,8 +54,6 @@ public class CmsApplicationMovieTest {
         ).andExpect(status().isOk());
     }
 
-    //TODO validationTestsOfMovieCreation
-
     @Test
     public void validationErrorMissingParamsWhenCreateMovie() throws Exception {
         Movie movie = new Movie(null, null, null, null, null, null);
