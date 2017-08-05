@@ -29,6 +29,11 @@ public class StandardAdminPanel implements AdminPanel {
 
     }
 
+    @Override
+    public void createShowing(CreateShowingCommand cmd) {
+
+    }
+
     private void checkCinemaExists(Cinema cinema) {
         if (cinemaRepository.exists(cinema.getName(), cinema.getCity())) {
             throw new InvalidActionException("Cinema has already been created");

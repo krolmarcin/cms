@@ -5,6 +5,7 @@ import pl.com.marcinkrol.cms.application.CinemaCatalog;
 import pl.com.marcinkrol.cms.application.CinemaDto;
 import pl.com.marcinkrol.cms.application.AdminPanel;
 import pl.com.marcinkrol.cms.domain.CreateCinemaCommand;
+import pl.com.marcinkrol.cms.domain.CreateShowingCommand;
 
 import java.util.List;
 
@@ -28,6 +29,12 @@ public class CinemaController {
     @GetMapping
     public List<CinemaDto> showAllCinemas() {
         return cinemaCatalog.getCinemas();
+    }
+
+    @PutMapping("/{cinemaId}/shows")
+    public void createMovieShowings(@PathVariable Long cinemaId, @RequestBody CreateShowingCommand cmd) {
+        cmd.setCinemaId(cinemaId);
+        adminPanel.createShowing(cmd);
     }
 
 }
