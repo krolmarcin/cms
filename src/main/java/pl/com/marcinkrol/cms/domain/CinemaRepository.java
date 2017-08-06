@@ -4,7 +4,7 @@ public interface CinemaRepository {
 
     void put(Cinema cinema);
 
-    void get(Long id);
+    Cinema get(Long id);
 
     boolean exists(String name, String city);
 

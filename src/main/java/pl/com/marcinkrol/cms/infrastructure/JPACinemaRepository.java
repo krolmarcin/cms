@@ -2,6 +2,7 @@ package pl.com.marcinkrol.cms.infrastructure;
 
 import pl.com.marcinkrol.cms.domain.Cinema;
 import pl.com.marcinkrol.cms.domain.CinemaRepository;
+import pl.com.marcinkrol.cms.domain.EntityNotFoundException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,8 +19,11 @@ public class JPACinemaRepository implements CinemaRepository {
     }
 
     @Override
-    public void get(Long id) {
-
+    public Cinema get(Long id) {
+        Cinema cinema = entityManager.find(Cinema.class, id);
+        if (cinema == null)
+            throw new EntityNotFoundException("cinema", id);
+        return cinema;
     }
 
     @Override
