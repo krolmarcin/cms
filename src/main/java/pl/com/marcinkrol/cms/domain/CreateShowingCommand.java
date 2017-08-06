@@ -1,5 +1,8 @@
 package pl.com.marcinkrol.cms.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class CreateShowingCommand implements Validatable {
@@ -8,7 +11,8 @@ public class CreateShowingCommand implements Validatable {
 
     private Long cinemaId;
 
-    private List<String> dates;
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm")
+    private List<LocalDateTime> dates;
 
     private ShowingCalendar calendar;
 
@@ -28,11 +32,11 @@ public class CreateShowingCommand implements Validatable {
         this.cinemaId = cinemaId;
     }
 
-    public List<String> getDates() {
+    public List<LocalDateTime> getDates() {
         return dates;
     }
 
-    public void setDates(List<String> dates) {
+    public void setDates(List<LocalDateTime> dates) {
         this.dates = dates;
     }
 
