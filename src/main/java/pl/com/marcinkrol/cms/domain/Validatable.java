@@ -4,6 +4,12 @@ import java.util.*;
 
 public interface Validatable {
 
+    String REQUIRED_FIELD = "is a required field and can not be null";
+    String FUTURE_DATE_REQUIRED = "must be in the futute";
+    String NON_NULL_ELEMENT = "is a required field and can not contain empty elements";
+
+
+
     void validate(ValidationErrors errors);
 
     default boolean isEmpty(Object o) {
