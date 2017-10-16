@@ -9,45 +9,41 @@ import java.util.List;
 
 public class ShowingCalendar {
 
-    @JsonFormat(pattern = "yyyy/MM/dd HH:mm")
-    private LocalDateTime fromDate;
+    private String fromDate;
+    private String untilDate;
 
-    @JsonFormat(pattern = "yyyy/MM/dd HH:mm")
-    private LocalDateTime untilDate;
+    private List<String> weekDays;
+    private List<String> hours;
 
-    private List<DayOfWeek> weekDays;
-
-    private List<LocalTime> hours;
-
-    public LocalDateTime getFromDate() {
+    public String getFromDate() {
         return fromDate;
     }
 
-    public void setFromDate(LocalDateTime fromDate) {
+    public void setFromDate(String fromDate) {
         this.fromDate = fromDate;
     }
 
-    public LocalDateTime getUntilDate() {
+    public String getUntilDate() {
         return untilDate;
     }
 
-    public void setUntilDate(LocalDateTime untilDate) {
+    public void setUntilDate(String untilDate) {
         this.untilDate = untilDate;
     }
 
-    public List<DayOfWeek> getWeekDays() {
+    public List<String> getWeekDays() {
         return weekDays;
     }
 
-    public void setWeekDays(List<DayOfWeek> weekDays) {
+    public void setWeekDays(List<String> weekDays) {
         this.weekDays = weekDays;
     }
 
-    public List<LocalTime> getHours() {
+    public List<String> getHours() {
         return hours;
     }
 
-    public void setHours(List<LocalTime> hours) {
+    public void setHours(List<String> hours) {
         this.hours = hours;
     }
 

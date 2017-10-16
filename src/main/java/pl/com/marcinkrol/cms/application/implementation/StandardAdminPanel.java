@@ -41,7 +41,8 @@ public class StandardAdminPanel implements AdminPanel {
         ShowingFactory showingFactory = new ShowingFactory();
         List<Showing> showings = showingFactory.createShowings(cmd, cinema, movie);
         for (Showing showing : showings)
-            showingRepository.put(showing);
+            if (!showingRepository.isAlreadyAdded(showing))
+                showingRepository.put(showing);
     }
 
     private void checkCinemaExists(Cinema cinema) {

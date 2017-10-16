@@ -6,4 +6,6 @@ public interface ShowingRepository {
 
     Showing get(Long showingId);
 
+    boolean isAlreadyAdded(Showing showing);
+
 }
