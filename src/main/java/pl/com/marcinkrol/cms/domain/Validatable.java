@@ -5,12 +5,12 @@ import java.util.*;
 public interface Validatable {
 
     String REQUIRED_FIELD = "is a required field and can not be null";
-    String FUTURE_DATE_REQUIRED = "must be in the futute";
+    String FUTURE_DATE_REQUIRED = "must be in the future";
     String NON_NULL_ELEMENT = "is a required field and can not contain empty elements";
     String GREATER_THAN_ZERO = "must be greater than 0";
     String MAX_ONE_REQUIRED = "either is required; can't both be blank";
     String MIN_ONE_REQUIRED = "either is required; can't provide both";
-
+    String INCORRECT_DATE_FORMAT = "Incorrect date format, correct format is yyyy/MM/dd HH:mm";
 
     void validate(ValidationErrors errors);
 
@@ -22,8 +22,8 @@ public interface Validatable {
         return (c == null || c.toString().trim().isEmpty() || c.size() == 0) || ensureNotEmptyValue(c);
     }
 
-    default boolean ensureNotEmptyValue(Collection c){
-        for (Object o : c){
+    default boolean ensureNotEmptyValue(Collection c) {
+        for (Object o : c) {
             return (isEmpty(o));
         }
         return false;
