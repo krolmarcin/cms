@@ -5,14 +5,15 @@ import pl.com.marcinkrol.cms.application.CinemaCatalog;
 import pl.com.marcinkrol.cms.application.implementation.StandardAdminPanel;
 import pl.com.marcinkrol.cms.domain.CinemaRepository;
 import pl.com.marcinkrol.cms.domain.MovieRepository;
+import pl.com.marcinkrol.cms.domain.PricingRepository;
 import pl.com.marcinkrol.cms.domain.ShowingRepository;
 
 @org.springframework.context.annotation.Configuration
 public class Configuration {
 
     @Bean
-    public StandardAdminPanel standardAdminPanel(CinemaRepository cinemaRepository, MovieRepository movieRepository, ShowingRepository showingRepository) {
-        return new StandardAdminPanel(cinemaRepository, movieRepository, showingRepository);
+    public StandardAdminPanel standardAdminPanel(CinemaRepository cinemaRepository, MovieRepository movieRepository, ShowingRepository showingRepository, PricingRepository pricingRepository) {
+        return new StandardAdminPanel(cinemaRepository, movieRepository, showingRepository, pricingRepository);
     }
 
     @Bean
@@ -35,4 +36,8 @@ public class Configuration {
         return new JPAShowingRepository();
     }
 
+    @Bean
+    public PricingRepository pricingRepository() {
+        return new JPAPricingRepository();
+    }
 }

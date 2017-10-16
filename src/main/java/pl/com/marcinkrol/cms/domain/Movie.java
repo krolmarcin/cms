@@ -1,9 +1,6 @@
 package pl.com.marcinkrol.cms.domain;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
@@ -24,6 +21,9 @@ public class Movie {
 
     private Integer minAge;
     private Integer length;
+
+    @OneToOne
+    private Pricing pricing;
 
     Movie() {
     }
@@ -63,6 +63,32 @@ public class Movie {
 
     public Integer getLength() {
         return length;
+    }
+
+    public Pricing getPricing() {
+        return pricing;
+    }
+
+    public void definePricing(DefineMoviePricesCommand cmd) {
+        if (pricing == null)
+            pricing = new Pricing(cmd);
+        else
+            pricing.update(cmd);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Movie movie = (Movie) o;
+
+        return id != null ? id.equals(movie.id) : movie.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 
 }

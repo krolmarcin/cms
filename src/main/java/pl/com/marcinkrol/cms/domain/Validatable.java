@@ -8,6 +8,7 @@ public interface Validatable {
     String FUTURE_DATE_REQUIRED = "must be in the future";
     String NON_NULL_ELEMENT = "is a required field and can not contain empty elements";
     String GREATER_THAN_ZERO = "must be greater than 0";
+    String POSITIVE_OR_ZERO_REQUIRED = "positive or zero required";
     String MAX_ONE_REQUIRED = "either is required; can't both be blank";
     String MIN_ONE_REQUIRED = "either is required; can't provide both";
     String INCORRECT_DATE_FORMAT = "Incorrect date format, correct format is yyyy/MM/dd HH:mm";

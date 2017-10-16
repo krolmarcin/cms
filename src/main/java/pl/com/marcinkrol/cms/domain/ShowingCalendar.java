@@ -1,10 +1,6 @@
 package pl.com.marcinkrol.cms.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
@@ -56,12 +52,7 @@ public class ShowingCalendar implements Validatable {
     public void validate(ValidationErrors errors) {
         validateFromDate(errors);
         validateUntilDate(errors);
-        validateFromDateIsBeforeUntilDate(errors);
-    }
-
-    private void validateFromDateIsBeforeUntilDate(ValidationErrors errors) {
-        if ((!isCorrectFormat(fromDate)) && (!isCorrectFormat(untilDate)) && isBefore(fromDate, untilDate))
-            errors.add("date", "fromDate cannot be before than untilDate");
+        validateUntilDateIsBeforeFromDate(errors);
     }
 
     private void validateFromDate(ValidationErrors errors) {
@@ -80,6 +71,11 @@ public class ShowingCalendar implements Validatable {
             errors.add("untilDate", INCORRECT_DATE_FORMAT);
         else if (isBeforeNow(untilDate))
             errors.add("untilDate", FUTURE_DATE_REQUIRED);
+    }
+
+    private void validateUntilDateIsBeforeFromDate(ValidationErrors errors) {
+        if ((!isCorrectFormat(fromDate)) && (!isCorrectFormat(untilDate)) && isBefore(fromDate, untilDate))
+            errors.add("date", "fromDate cannot be before than untilDate");
     }
 
     private boolean isBefore(String fromDate, String untilDate) {

@@ -3,7 +3,6 @@ package pl.com.marcinkrol.cms.application.implementation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.com.marcinkrol.cms.application.AdminPanel;
 import pl.com.marcinkrol.cms.domain.*;
-import pl.com.marcinkrol.cms.infrastructure.JPAShowingRepository;
 
 import java.util.List;
 
@@ -13,11 +12,16 @@ public class StandardAdminPanel implements AdminPanel {
     private CinemaRepository cinemaRepository;
     private MovieRepository movieRepository;
     private ShowingRepository showingRepository;
+    private PricingRepository pricingRepository;
 
-    public StandardAdminPanel(CinemaRepository cinemaRepository, MovieRepository movieRepository, ShowingRepository showingRepository) {
+    public StandardAdminPanel(CinemaRepository cinemaRepository,
+                              MovieRepository movieRepository,
+                              ShowingRepository showingRepository,
+                              PricingRepository pricingRepository) {
         this.cinemaRepository = cinemaRepository;
         this.movieRepository = movieRepository;
         this.showingRepository = showingRepository;
+        this.pricingRepository = pricingRepository;
     }
 
     @Override
@@ -43,6 +47,13 @@ public class StandardAdminPanel implements AdminPanel {
         for (Showing showing : showings)
             if (!showingRepository.isAlreadyAdded(showing))
                 showingRepository.put(showing);
+    }
+
+    @Override
+    public void defineMoviePrices(DefineMoviePricesCommand cmd) {
+        Movie movie = movieRepository.get(cmd.getMovieId());
+        movie.definePricing(cmd);
+        pricingRepository.put(movie.getPricing());
     }
 
     private void checkCinemaExists(Cinema cinema) {
