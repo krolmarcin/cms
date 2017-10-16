@@ -50,7 +50,43 @@ public class CreateShowingCommand implements Validatable {
 
     @Override
     public void validate(ValidationErrors errors) {
+        validateCinemaId(errors);
+        validateMovieId(errors);
+        validateDatesAndCalendar(errors);
 
+    }
+
+    private void validateMovieId(ValidationErrors errors) {
+        if (movieId == null)
+            errors.add("movieId", REQUIRED_FIELD);
+    }
+
+    private void validateCinemaId(ValidationErrors errors) {
+        if (cinemaId == null)
+            errors.add("cinemaId", REQUIRED_FIELD);
+    }
+
+    private void validateDatesAndCalendar(ValidationErrors errors) {
+        if (calendar == null && dates == null)
+            errors.add("calendar and dates", MAX_ONE_REQUIRED);
+        else if (calendar != null && dates != null)
+            errors.add("calendars and dates", MIN_ONE_REQUIRED);
+        else if (dates != null)
+            validateDates(errors);
+        else
+            calendar.validate(errors);
+    }
+
+    private void validateDates(ValidationErrors errors) {
+        if (dates.isEmpty())
+            errors.add("dates", REQUIRED_FIELD);
+        if (dates.remove(null))
+            errors.add("dates", NON_NULL_ELEMENT);
+        for (LocalDateTime date : dates)
+            if (date.isBefore(LocalDateTime.now())) {
+                errors.add("dates", FUTURE_DATE_REQUIRED);
+                break;
+            }
     }
 
 }

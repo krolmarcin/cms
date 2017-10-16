@@ -62,21 +62,21 @@ public class CreateMovieCommand implements Validatable {
     @Override
     public void validate(ValidationErrors errors) {
         if (title == null || isEmpty(title))
-            errors.add("title", "is required");
+            errors.add("title", REQUIRED_FIELD);
         if (description == null || isEmpty(description))
-            errors.add("description", "is required");
+            errors.add("description", REQUIRED_FIELD);
         if (actors == null || isEmpty(actors))
-            errors.add("actors", "is required");
+            errors.add("actors", REQUIRED_FIELD);
         if (genres == null || isEmpty(genres))
-            errors.add("genres", "is required");
+            errors.add("genres", REQUIRED_FIELD);
         if (minAge == null || isEmpty(minAge))
-            errors.add("minAge", "is required");
+            errors.add("minAge", REQUIRED_FIELD);
         if (minAge != null && minAge <= 0)
-            errors.add("minAge", "must be greater then 0");
+            errors.add("minAge", GREATER_THAN_ZERO);
         if (length == null || isEmpty(length) || (length <= 0))
-            errors.add("length", "is required");
+            errors.add("length", REQUIRED_FIELD);
         if (length != null && length <= 0)
-            errors.add("length", "must be greater then 0");
+            errors.add("length", GREATER_THAN_ZERO);
     }
 
 }

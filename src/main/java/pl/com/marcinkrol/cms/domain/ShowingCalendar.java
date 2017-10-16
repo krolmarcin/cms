@@ -5,9 +5,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class ShowingCalendar {
+public class ShowingCalendar implements Validatable {
+
+    private static final DateTimeFormatter CORRECT_DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy/MM/dd kk:mm");
+    private static final DateTimeFormatter CORRECT_TIME_FORMAT = DateTimeFormatter.ofPattern("kk:mm");
 
     private String fromDate;
     private String untilDate;
@@ -45,6 +49,28 @@ public class ShowingCalendar {
 
     public void setHours(List<String> hours) {
         this.hours = hours;
+    }
+
+    @Override
+    public void validate(ValidationErrors errors) {
+        validateFromDate(errors);
+    }
+
+    private void validateFromDate(ValidationErrors errors) {
+        if (fromDate == null)
+            errors.add("fromDate", REQUIRED_FIELD);
+        else if (isBeforeNow(fromDate))
+            errors.add("fromDate", FUTURE_DATE_REQUIRED);
+
+        if (untilDate == null)
+            errors.add("untilDate", REQUIRED_FIELD);
+        else if (isBeforeNow(untilDate))
+            errors.add("untilDate", FUTURE_DATE_REQUIRED);
+    }
+
+    private boolean isBeforeNow(String date) {
+        LocalDateTime dateParsed = LocalDateTime.parse(date, CORRECT_DATE_TIME_FORMAT);
+        return (dateParsed.isBefore(LocalDateTime.now()));
     }
 
 }

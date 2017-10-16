@@ -7,7 +7,9 @@ public interface Validatable {
     String REQUIRED_FIELD = "is a required field and can not be null";
     String FUTURE_DATE_REQUIRED = "must be in the futute";
     String NON_NULL_ELEMENT = "is a required field and can not contain empty elements";
-
+    String GREATER_THAN_ZERO = "must be greater than 0";
+    String MAX_ONE_REQUIRED = "either is required; can't both be blank";
+    String MIN_ONE_REQUIRED = "either is required; can't provide both";
 
 
     void validate(ValidationErrors errors);
