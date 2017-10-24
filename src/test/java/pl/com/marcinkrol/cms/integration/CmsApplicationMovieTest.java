@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import pl.com.marcinkrol.cms.domain.Validatable;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -62,12 +63,12 @@ public class CmsApplicationMovieTest {
                 contentType(MediaType.APPLICATION_JSON).
                 content(objectMapper.writeValueAsString(movie))
         ).andExpect(status().isUnprocessableEntity()).
-                andExpect(jsonPath("$.errors.title").value("is required")).
-                andExpect(jsonPath("$.errors.description").value("is required")).
-                andExpect(jsonPath("$.errors.actors").value("is required")).
-                andExpect(jsonPath("$.errors.genres").value("is required")).
-                andExpect(jsonPath("$.errors.minAge").value("is required")).
-                andExpect(jsonPath("$.errors.length").value("is required"));
+                andExpect(jsonPath("$.errors.title").value(Validatable.REQUIRED_FIELD)).
+                andExpect(jsonPath("$.errors.description").value(Validatable.REQUIRED_FIELD)).
+                andExpect(jsonPath("$.errors.actors").value(Validatable.REQUIRED_FIELD)).
+                andExpect(jsonPath("$.errors.genres").value(Validatable.REQUIRED_FIELD)).
+                andExpect(jsonPath("$.errors.minAge").value(Validatable.REQUIRED_FIELD)).
+                andExpect(jsonPath("$.errors.length").value(Validatable.REQUIRED_FIELD));
     }
 
     private void saveMovie(String title, String description, Set<String> actors, Set<String> genres, Integer minAge, Integer length) throws Exception {
