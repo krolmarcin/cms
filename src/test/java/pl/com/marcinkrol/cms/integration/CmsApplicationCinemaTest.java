@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import pl.com.marcinkrol.cms.domain.Validatable;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -55,8 +56,8 @@ public class CmsApplicationCinemaTest {
                         contentType(MediaType.APPLICATION_JSON).
                         content(objectMapper.writeValueAsString(cinema))
         ).andExpect(status().isUnprocessableEntity()).
-                andExpect(jsonPath("$.errors.name").value("is required")).
-                andExpect(jsonPath("$.errors.city").value("is required"));
+                andExpect(jsonPath("$.errors.name").value(Validatable.REQUIRED_FIELD)).
+                andExpect(jsonPath("$.errors.city").value(Validatable.REQUIRED_FIELD));
     }
 
     @Test
