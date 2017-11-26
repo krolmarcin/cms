@@ -9,9 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class JPACinemaCatalog implements CinemaCatalog {
 
@@ -23,11 +21,7 @@ public class JPACinemaCatalog implements CinemaCatalog {
         String queryGetCinemas = "FROM Cinema c";
         Query query = entityManager.createQuery(queryGetCinemas);
         List<Cinema> cinemas = query.getResultList();
-        List<CinemaDto> cinemaDtos = new LinkedList<>();
-        for (Cinema cinema : cinemas) {
-            cinemaDtos.add(getCinemaDtos(cinema));
-        }
-        return cinemaDtos;
+        return createCinemaDtos(cinemas);
     }
 
     @Override
@@ -54,25 +48,17 @@ public class JPACinemaCatalog implements CinemaCatalog {
     private MovieShowingsDto createMovieShowingsDto(Movie movie) {
         MovieShowingsDto movieShowingsDto = new MovieShowingsDto();
         movieShowingsDto.setMovie(createMovieDto(movie));
-        movieShowingsDto.setShows(createShowingDto(movie));
+        movieShowingsDto.setShows(createMovieShows(movie.getShowings()));
         return movieShowingsDto;
     }
 
-    private List<ShowingDto> createShowingDto(Movie movie) {
-        List<ShowingDto> showingDtos = new LinkedList<>();
-        for (Showing showing : movie.getShowings()) {
-            ShowingDto showingDto = new ShowingDto();
-            showingDto.setId(showing.getId());
-            showingDto.setTime(showing.getBeginsAt().toLocalTime());
-            showingDtos.add(showingDto);
-            showingDtos.sort(new Comparator<ShowingDto>() {
-                @Override
-                public int compare(ShowingDto o1, ShowingDto o2) {
-                    return o1.getTime().compareTo(o2.getTime());
-                }
-            });
+    private List<Show> createMovieShows(Set<Showing> showings) {
+        List<Show> shows = new LinkedList<>();
+        for (Showing showing : showings) {
+            shows.add(new Show(showing.getId(), showing.getBeginsAt().toLocalTime()));
         }
-        return showingDtos;
+        Collections.sort(shows);
+        return shows;
     }
 
     private MovieDto createMovieDto(Movie movie) {
@@ -86,7 +72,15 @@ public class JPACinemaCatalog implements CinemaCatalog {
         return movieDto;
     }
 
-    private CinemaDto getCinemaDtos(Cinema cinema) {
+    private List<CinemaDto> createCinemaDtos(List<Cinema> cinemas) {
+        List<CinemaDto> cinemaDtos = new LinkedList<>();
+        for (Cinema cinema : cinemas) {
+            cinemaDtos.add(createCinemaDtos(cinema));
+        }
+        return cinemaDtos;
+    }
+
+    private CinemaDto createCinemaDtos(Cinema cinema) {
         CinemaDto cinemaDto = new CinemaDto();
         cinemaDto.setId(cinema.getId());
         cinemaDto.setName(cinema.getName());

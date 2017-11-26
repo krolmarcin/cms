@@ -6,7 +6,7 @@ public class MovieShowingsDto {
 
     private MovieDto movie;
 
-    private List<ShowingDto> shows;
+    private List<Show> shows;
 
     public MovieDto getMovie() {
         return movie;
@@ -16,11 +16,11 @@ public class MovieShowingsDto {
         this.movie = movie;
     }
 
-    public List<ShowingDto> getShows() {
+    public List<Show> getShows() {
         return shows;
     }
 
-    public void setShows(List<ShowingDto> shows) {
+    public void setShows(List<Show> shows) {
         this.shows = shows;
     }
 
