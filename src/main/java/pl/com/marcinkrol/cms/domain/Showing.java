@@ -1,9 +1,6 @@
 package pl.com.marcinkrol.cms.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -16,10 +13,12 @@ public class Showing {
     private LocalDateTime beginsAt;
     private LocalDateTime endsAt;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cinemaId")
     private Cinema cinema;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "movieId")
     private Movie movie;
 
     Showing() {

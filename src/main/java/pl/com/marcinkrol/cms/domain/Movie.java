@@ -25,6 +25,11 @@ public class Movie {
     @OneToOne
     private Pricing pricing;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "movieId")
+    private Set<Showing> showings;
+
+
     Movie() {
     }
 
@@ -74,6 +79,14 @@ public class Movie {
             pricing = new Pricing(cmd);
         else
             pricing.update(cmd);
+    }
+
+    public Set<Showing> getShowings() {
+        return showings;
+    }
+
+    public void setShowings(Set<Showing> showings) {
+        this.showings = showings;
     }
 
     @Override
