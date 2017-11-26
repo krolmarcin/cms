@@ -32,6 +32,7 @@ public class JPACinemaCatalog implements CinemaCatalog {
 
     @Override
     public List<MovieShowingsDto> getShowings(Long cinemaId, LocalDate date) {
+        List<MovieShowingsDto> movieShowingsDtos = new LinkedList<>();
         String queryGetShowingsFromCinemaOnDate = "SELECT DISTINCT m FROM Movie m " +
                 "LEFT JOIN FETCH m.showings s " +
                 "LEFT JOIN FETCH s.cinema c " +
@@ -44,23 +45,20 @@ public class JPACinemaCatalog implements CinemaCatalog {
         query.setParameter("endHourOfDay", date.atStartOfDay().plusDays(1));
 
         List<Movie> movies = query.getResultList();
-        List<MovieShowingsDto> movieShowingsDtos = new LinkedList<>();
-
         for (Movie movie : movies) {
-            movieShowingsDtos.add(getMovieDtos(movie));
+            movieShowingsDtos.add(createMovieShowingsDto(movie));
         }
         return movieShowingsDtos;
     }
 
-    private MovieShowingsDto getMovieDtos(Movie movie) {
-        MovieDto movieDto = new MovieDto();
-        movieDto.setTitle(movie.getTitle());
-        movieDto.setDescription(movie.getDescription());
-        movieDto.setActors(movie.getActors());
-        movieDto.setGenres(movie.getGenres());
-        movieDto.setMinAge(movie.getMinAge());
-        movieDto.setLength(movie.getLength());
+    private MovieShowingsDto createMovieShowingsDto(Movie movie) {
+        MovieShowingsDto movieShowingsDto = new MovieShowingsDto();
+        movieShowingsDto.setMovie(createMovieDto(movie));
+        movieShowingsDto.setShows(createShowingDto(movie));
+        return movieShowingsDto;
+    }
 
+    private List<ShowingDto> createShowingDto(Movie movie) {
         List<ShowingDto> showingDtos = new LinkedList<>();
         for (Showing showing : movie.getShowings()) {
             ShowingDto showingDto = new ShowingDto();
@@ -74,11 +72,18 @@ public class JPACinemaCatalog implements CinemaCatalog {
                 }
             });
         }
+        return showingDtos;
+    }
 
-        MovieShowingsDto movieShowingsDto = new MovieShowingsDto();
-        movieShowingsDto.setMovie(movieDto);
-        movieShowingsDto.setShows(showingDtos);
-        return movieShowingsDto;
+    private MovieDto createMovieDto(Movie movie) {
+        MovieDto movieDto = new MovieDto();
+        movieDto.setTitle(movie.getTitle());
+        movieDto.setDescription(movie.getDescription());
+        movieDto.setActors(movie.getActors());
+        movieDto.setGenres(movie.getGenres());
+        movieDto.setMinAge(movie.getMinAge());
+        movieDto.setLength(movie.getLength());
+        return movieDto;
     }
 
     private CinemaDto getCinemaDtos(Cinema cinema) {
