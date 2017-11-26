@@ -2,6 +2,7 @@ package pl.com.marcinkrol.cms.infrastructure;
 
 import pl.com.marcinkrol.cms.application.*;
 import pl.com.marcinkrol.cms.domain.Cinema;
+import pl.com.marcinkrol.cms.domain.InvalidActionException;
 import pl.com.marcinkrol.cms.domain.Movie;
 import pl.com.marcinkrol.cms.domain.Showing;
 
@@ -26,6 +27,8 @@ public class JPACinemaCatalog implements CinemaCatalog {
 
     @Override
     public List<MovieShowingsDto> getShowings(Long cinemaId, LocalDate date) {
+        ensureDateNotNull(date);
+
         List<MovieShowingsDto> movieShowingsDtos = new LinkedList<>();
         String queryGetShowingsFromCinemaOnDate = "SELECT DISTINCT m FROM Movie m " +
                 "LEFT JOIN FETCH m.showings s " +
@@ -43,6 +46,11 @@ public class JPACinemaCatalog implements CinemaCatalog {
             movieShowingsDtos.add(createMovieShowingsDto(movie));
         }
         return movieShowingsDtos;
+    }
+
+    private void ensureDateNotNull(LocalDate date) {
+        if (date == null)
+            throw new InvalidActionException("Date is missing");
     }
 
     private MovieShowingsDto createMovieShowingsDto(Movie movie) {
